@@ -1,0 +1,61 @@
+/* Carousel Section */
+.carousel { z-index: -99; }
+.carousel .carousel-item {
+    position: fixed; 
+    width: 100%; height: 100%;
+    opacity: 0;
+    -webkit-transition: opacity 0.5s;
+    -moz-transition: opacity 0.5s;
+    -ms-transition: opacity 0.5s;
+    -o-transition: opacity 0.5s;
+    transition: opacity 0.5s;
+ 
+}
+.carousel .active { 
+    opacity:1;
+}
+
+.jedi img {
+    width: 100px;
+    height: 100px;
+}
+
+#inactiveCharacters {
+    display: flex;
+    flex-wrap: wrap;
+    
+  }
+  
+    
+.jedi {
+    position: relative;
+    width: fit-content;
+    padding: 15px;
+    border: 4px solid green;
+    background: white;
+    
+}
+
+.possibleFoe {
+    /* I found the red background hard to read.  This works. */
+    border-color: red;
+}
+
+.activeEnemy {
+    border-color: purple;
+    background-color: black;
+}
+
+.health {
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.jediName {
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}

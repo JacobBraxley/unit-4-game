@@ -52,11 +52,21 @@ const trainJedi = ({ name, healthPoints, attackPower, counterAttackPower, index,
         }
     },
 
+    isNoOneElseStanding: function() {
+        var assumedVictory = false;
+        for(var i = 0; i < jediArray.length; i++) {
+            if(i != this.index) {
+                assumedVictory |= jediArray[i].isStillInTheGame();
+            }
+        }
+        return !assumedVictory;
+    },
+
     evaluateSituation: function () {
         if (!this.isStillInTheGame()) {
             //Handle Defeat.
             instruction("You have been defeated.  Click an image or refresh to try again.");
-        } else if (false) { //Replace false with check to see if there no jedi in the available AND Defend Area.
+        } else if (this.isNoOneElseStanding()) { //Replace false with check to see if there no jedi in the available AND Defend Area.
             //Handle Victory.
             jediGameStateMachine.getPlayerDom().addClass("master");
             instruction("You've gained the master class.  Woohoo!");
@@ -121,10 +131,10 @@ function moveOtherJediToFoes() {
 $(document).ready(function () {
 
     //Initialize Jedi
-    jediArray.push(trainJedi({ name: "Rey", healthPoints: 1100, attackPower: 15, counterAttackPower: 10, index: 0 }));
+    jediArray.push(trainJedi({ name: "Rey", healthPoints: 100, attackPower: 15, counterAttackPower: 10, index: 0 }));
     jediArray.push(trainJedi({ name: "Mace", healthPoints: 100, attackPower: 12, counterAttackPower: 25, index: 1 }));
     jediArray.push(trainJedi({ name: "Grievous", healthPoints: 300, attackPower: 2, counterAttackPower: 5, index: 2 }));
-    jediArray.push(trainJedi({ name: "Yoda", healthPoints: 80, attackPower: 4, counterAttackPower: 50, index: 3 }));
+    jediArray.push(trainJedi({ name: "Yoda", healthPoints: 80, attackPower: 7, counterAttackPower: 50, index: 3 }));
 
     //A long Object initialization can be cumbersome to read.  I've setup a lookup for the associated images.
     //Better keeping them in the same order or you'll be sorry!
@@ -161,12 +171,16 @@ $(document).ready(function () {
             moveOtherJediToFoes();
             instruction("Select someone to fight.")
             $("#possibleFoesDescription").html("Possible Foes");
+        } else if (!jediGameStateMachine.getPlayer().isStillInTheGame()) {
+            location.reload();
         } else if (jediGameStateMachine.foeIndex === undefined) {
-            jediGameStateMachine.foeIndex = selectedIndex;
-            $(this).parent().addClass("activeEnemy");
-            $(this).parent().appendTo("#defenderArea");
-            $("#activeFoeDescription").html("Active Foe");
-            instruction("Click on them to attack.")
+            if(jediArray[selectedIndex].isStillInTheGame()) {
+                jediGameStateMachine.foeIndex = selectedIndex;
+                $(this).parent().addClass("activeEnemy");
+                $(this).parent().appendTo("#defenderArea");
+                $("#activeFoeDescription").html("Active Foe");
+                instruction("Click on them to attack.")
+            }
         } else if (jediGameStateMachine.foeIndex === selectedIndex) {
             //Attack
             jediGameStateMachine.getPlayer().attack(jediArray[selectedIndex]);

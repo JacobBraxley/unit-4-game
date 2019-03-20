@@ -42,6 +42,7 @@
 }
 
 .activeEnemy {
+    color: white;
     border-color: purple;
     background-color: black;
 }

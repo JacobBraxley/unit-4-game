@@ -53,6 +53,11 @@ var playerCharacter = {
     }
 }
 
+const jediGameStateMachine = {
+    playerIndex : undefined,
+    foeIndex : undefined,
+
+}
 // Events
 // Attack Button
 // if personal jedi is selected && defender jedi is selected, call personal Jedi.attack(defenderJedi)
@@ -63,8 +68,8 @@ var playerCharacter = {
 //else if no defender is selected, select them
 //else ignore click.
 
-const domJedi =  ({ name, healthPoints, attackPower, counterAttackPower }) => ({
-});
+// const domJedi =  ({ name, healthPoints, attackPower, counterAttackPower }) => ({
+// });
 
 // Init Jedi
 $(document).ready(function () {
@@ -100,7 +105,15 @@ $(document).ready(function () {
     }
 
     $(".jediImg").click(function(e) {
-        console.log("Clicked " + e.currentTarget.parentElement.getAttribute("index"));
+        var selectedIndex = e.currentTarget.parentElement.getAttribute("index")
+        console.log("Clicked " + selectedIndex);
+        if(this.jediGameStateMachine.playerIndex === undefined) {
+            this.jediGameStateMachine.playerIndex = selectedIndex;
+        } else if (this.jediGameStateMachine.foeIndex === undefined) {
+            this.jediGameStateMachine.foeIndex = selectedIndex;
+        } else if (this.jediGameStateMachine.foeIndex === selectedIndex) {
+            //Attack
+        }
     });
 
 });

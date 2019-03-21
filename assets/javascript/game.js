@@ -106,7 +106,8 @@ var jediGameStateMachine = {
     getPlayerDom: function() {
         return $(".player");
     }
-}
+};
+
 // Events
 // Attack Button
 // if personal jedi is selected && defender jedi is selected, call personal Jedi.attack(defenderJedi)
@@ -126,7 +127,7 @@ function moveOtherJediToFoes() {
             $(this).addClass("possibleFoe");
             $(this).appendTo("#jediFoes");
         }
-    })
+    });
 }
 
 // Init Jedi
@@ -164,14 +165,14 @@ $(document).ready(function () {
 
     $(".jediImg").click(function (e) {
 
-        var selectedIndex = e.currentTarget.parentElement.getAttribute("index")
+        var selectedIndex = e.currentTarget.parentElement.getAttribute("index");
         
         if (jediGameStateMachine.playerIndex === undefined) {
             jediGameStateMachine.playerIndex = selectedIndex;
             jediArray[selectedIndex].isPlayer = true;
             $(this).parent().addClass("player");
             moveOtherJediToFoes();
-            instruction("Select someone to fight.")
+            instruction("Select someone to fight.");
             $("#possibleFoesDescription").html("Possible Foes");
         } else if (!jediGameStateMachine.getPlayer().isStillInTheGame()) {
             location.reload();
@@ -181,7 +182,7 @@ $(document).ready(function () {
                 $(this).parent().addClass("activeEnemy");
                 $(this).parent().appendTo("#defenderArea");
                 $("#activeFoeDescription").html("Active Foe");
-                instruction("Click on them to attack.")
+                instruction("Click on them to attack.");
             }
         } else if (jediGameStateMachine.foeIndex === selectedIndex) {
             //Attack

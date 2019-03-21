@@ -18,10 +18,12 @@ const trainJedi = ({ name, healthPoints, attackPower, counterAttackPower, index,
     fatalDamage: function () {
         var dom = this.getMainDiv();
         //Remove Jedi from Defend Area.
-        dom.appendTo("#defeated");
+        dom.remove();
         if(!this.isPlayer) {
             jediGameStateMachine.foeIndex = undefined;
-            dom.removeClass("activeEnemy");
+            $("#damageDoneLog").html("");
+            $("#damageRecievedLog").html("You have defeated " + this.name + ", you can choose to fight another enemy.");
+            instruction("Pick a new Foe.");
         }
     },
 
@@ -29,9 +31,9 @@ const trainJedi = ({ name, healthPoints, attackPower, counterAttackPower, index,
         this.healthPoints -= damageValue;
 
         if(this.isPlayer) {
-            $("#damageRecievedLog").html("You have taken " + damageValue + " damage.");
+            $("#damageRecievedLog").html(jediArray[jediGameStateMachine.foeIndex].name + " attacked you back for " + damageValue + " damage.");
         } else {
-            $("#damageDoneLog").html("You have done " + damageValue + " damage.");
+            $("#damageDoneLog").html("You attacked " + this.name + " for " + damageValue + " damage.");
         }
 
         if (!this.isStillInTheGame()) {
